@@ -49,8 +49,6 @@ public class gpio_config_gui_info {
     HBox gpio_info_delete_hbox = new HBox();
     Button gpio_info_delete_btn = new Button("remove");
     public gpio_config_gui_info(){
-
-
         gpui_num_hBox.getChildren().addAll(gpio_num_title,gpio_num_input);
         gpio_num_input.setMaxWidth(50);
         HBox.setMargin(gpio_num_title,new Insets(4));
@@ -107,9 +105,32 @@ public class gpio_config_gui_info {
 
         hBox_main.setAlignment(Pos.CENTER);
 
+
+        gpio_info_delete_btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
     }
 
 
+    public HBox getGpio_info_delete_hbox() {
+        return gpio_info_delete_hbox;
+    }
+
+    public void setGpio_info_delete_hbox(HBox gpio_info_delete_hbox) {
+        this.gpio_info_delete_hbox = gpio_info_delete_hbox;
+    }
+
+    public Button getGpio_info_delete_btn() {
+        return gpio_info_delete_btn;
+    }
+
+    public void setGpio_info_delete_btn(Button gpio_info_delete_btn) {
+        this.gpio_info_delete_btn = gpio_info_delete_btn;
+    }
 
     public HBox gethBox_main() {
         return hBox_main;

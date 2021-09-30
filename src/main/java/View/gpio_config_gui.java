@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,6 +42,8 @@ public class gpio_config_gui {
 
     HBox hBox_bottom = new HBox();
     Button gpio_generate = new Button("generate");
+
+    boolean bgc=true;
     public gpio_config_gui(){
 
         hBox_top.getChildren().setAll(gpio_count_title,gpio_count_input,add_once);
@@ -62,9 +65,9 @@ public class gpio_config_gui {
             }
         });
 
-        gpio_count_input.textProperty().addListener(new ChangeListener<String>() {
+        add_once.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void handle(ActionEvent event) {
                 on_gpio_count_change();
             }
         });
@@ -98,10 +101,18 @@ public class gpio_config_gui {
         gpio_config_to_code gpio_config_to_code = new gpio_config_to_code(gpio_list);
     }
 
+    void change_gpio_list_bgc(){
+        this.bgc = true;
+        for (Node child : vbox.getChildren()) {
+            HBox hBox = (HBox) child;
+            if(this.bgc) hBox.setBackground(background);
+            else hBox.setBackground(null);
+            this.bgc= !this.bgc;
+        }
+    }
+
     void on_gpio_count_change(){
-        boolean bgc=true;
-        vbox = new VBox();
-        gpio_config_gui_info_list = new ArrayList<>();
+
         gpio_counts=0;
         try {
             gpio_counts = Integer.parseInt(gpio_count_input.getText());
@@ -111,11 +122,19 @@ public class gpio_config_gui {
         if(gpio_counts > 0){
             for (int i = 0; i < gpio_counts; i++) {
                 gpio_config_gui_info tmp_gpio_config_gui_info = new gpio_config_gui_info();
-                tmp_gpio_config_gui_info.getGpio_num_input().setText(i+"");
-                if(bgc) tmp_gpio_config_gui_info.gethBox_main().setBackground(background);
+                tmp_gpio_config_gui_info.getGpio_num_input().setText(i+1+"");
+                tmp_gpio_config_gui_info.getGpio_info_delete_btn().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("1111");
+                        gpio_config_gui_info_list.remove(tmp_gpio_config_gui_info);
+                        vbox.getChildren().remove(tmp_gpio_config_gui_info.gethBox_main());
+                        change_gpio_list_bgc();
+                    }
+                });
                 gpio_config_gui_info_list.add(tmp_gpio_config_gui_info);
-                vbox.getChildren().add(gpio_config_gui_info_list.get(i).gethBox_main());
-                bgc= !bgc;
+                vbox.getChildren().add(tmp_gpio_config_gui_info.gethBox_main());
+                change_gpio_list_bgc();
             }
         }
         scrollPane.setContent(vbox);
