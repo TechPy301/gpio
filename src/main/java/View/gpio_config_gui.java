@@ -123,10 +123,25 @@ public class gpio_config_gui {
             for (int i = 0; i < gpio_counts; i++) {
                 gpio_config_gui_info tmp_gpio_config_gui_info = new gpio_config_gui_info();
                 tmp_gpio_config_gui_info.getGpio_num_input().setText(i+1+"");
+                tmp_gpio_config_gui_info.getGpio_name_input().setText("tmp_name_"+(i+1));
+                tmp_gpio_config_gui_info.getGpio_init_h().setSelected(true);
+                tmp_gpio_config_gui_info.getGpio_input().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        tmp_gpio_config_gui_info.getGpio_pull_h().setSelected(false);
+                        tmp_gpio_config_gui_info.getGpio_pull_l().setSelected(false);
+                    }
+                });
+                tmp_gpio_config_gui_info.getGpio_output().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        tmp_gpio_config_gui_info.getGpio_pull_h().setSelected(false);
+                        tmp_gpio_config_gui_info.getGpio_pull_l().setSelected(false);
+                    }
+                });
                 tmp_gpio_config_gui_info.getGpio_info_delete_btn().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        System.out.println("1111");
                         gpio_config_gui_info_list.remove(tmp_gpio_config_gui_info);
                         vbox.getChildren().remove(tmp_gpio_config_gui_info.gethBox_main());
                         change_gpio_list_bgc();

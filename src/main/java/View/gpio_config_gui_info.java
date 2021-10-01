@@ -65,7 +65,7 @@ public class gpio_config_gui_info {
         HBox.setMargin(gpio_dir_title,new Insets(4));
         HBox.setMargin(gpio_output,new Insets(4));
         HBox.setMargin(gpio_input,new Insets(4));
-
+        gpio_input.setSelected(true);
 
         gpio_pull_h.setToggleGroup(gpio_pull_radio_bt_group);
         gpio_pull_l.setToggleGroup(gpio_pull_radio_bt_group);
